@@ -1,4 +1,5 @@
 import s from "./LoadMoreBtn.module.css";
+import React from "react";
 
 const LoadMoreBtn = ({ onClick }) => {
   return (

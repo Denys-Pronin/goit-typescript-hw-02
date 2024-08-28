@@ -1,5 +1,6 @@
 import Modal from "react-modal";
 import s from "./ImageModal.module.css";
+import React from "react";
 
 Modal.setAppElement("#root");
 Modal.defaultStyles.overlay.backgroundColor = "rgb(32 32 32 / 75%)";

@@ -1,22 +1,30 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ImageGallery from "./ImageGallery/ImageGallery";
 import SearchBar from "./SearchBar/SearchBar";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { fetchGallery } from "../search-api";
 import Loader from "./Loader/Loader";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
 import LoadMoreBtn from "./LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "./ImageModal/ImageModal";
-function App() {
-  const [query, setQuery] = useState([]);
-  const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
-  const [load, setLoad] = useState(false);
-  const [error, setError] = useState(false);
-  const [modalIsOpen, setIsOpen] = useState(false);
-  const [imgs, setImgs] = useState("");
+import { Image } from "./types";
 
-  const [loadBtn, setLoadBtn] = useState(false);
+interface GalleryResponse {
+  results: Image[];
+}
+
+function App() {
+  const [query, setQuery] = useState<Image[]>([]);
+
+  const [search, setSearch] = useState<string>("");
+  const [imgs, setImgs] = useState<Image | string>("");
+
+  const [page, setPage] = useState<number>(1);
+
+  const [load, setLoad] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [modalIsOpen, setIsOpen] = useState<boolean>(false);
+  const [loadBtn, setLoadBtn] = useState<boolean>(false);
 
   useEffect(() => {
     if (search == "") {
@@ -27,13 +35,14 @@ function App() {
       try {
         setLoad(true);
         setLoadBtn(true);
-        const data = await fetchGallery(search, page);
-        if (data.length < 12 && data.length > 0) {
+        const data: GalleryResponse = await fetchGallery(search, page);
+
+        if (data.results.length < 12 && data.results.length > 0) {
           setLoadBtn(false);
-        } else if (data.length == 0) {
+        } else if (data.results.length == 0) {
           setError(true);
         }
-        setQuery((prev) => [...prev, ...data]);
+        setQuery((prev) => [...prev, ...data.results]);
       } catch {
         setError(true);
       } finally {
@@ -43,7 +52,7 @@ function App() {
     getData();
   }, [page, search]);
 
-  const handleSubmit = (inputValue) => {
+  const handleSubmit = (inputValue: string) => {
     setLoadBtn(false);
     setError(false);
     setQuery([]);
@@ -55,9 +64,8 @@ function App() {
     setPage(page + 1);
   };
 
-  function openModal(img) {
+  function openModal(img: Image) {
     setImgs(img);
-    console.log(img);
     setIsOpen(true);
   }
 
@@ -72,7 +80,7 @@ function App() {
       <SearchBar onSub={handleSubmit} />
       {query.length > 0 && <ImageGallery value={query} openModal={openModal} />}
       {query.length > 0 && loadBtn && <LoadMoreBtn onClick={updatePage} />}
-      {modalIsOpen && (
+      {modalIsOpen && typeof imgs !== "string" && imgs && (
         <ImageModal
           modalIsOpen={modalIsOpen}
           closeModal={closeModal}

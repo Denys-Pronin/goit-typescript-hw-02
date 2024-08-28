@@ -1,4 +1,5 @@
 import s from "./ImageCard.module.css";
+import React from "react";
 
 const ImageCard = ({ imgUrl, alt, openModal }) => {
   return (
