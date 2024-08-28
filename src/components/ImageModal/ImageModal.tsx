@@ -3,6 +3,7 @@ import s from "./ImageModal.module.css";
 import React from "react";
 
 Modal.setAppElement("#root");
+Modal.defaultStyles.overlay = Modal.defaultStyles.overlay || {};
 Modal.defaultStyles.overlay.backgroundColor = "rgb(32 32 32 / 75%)";
 
 const customStyles = {
@@ -17,7 +18,12 @@ const customStyles = {
   },
 };
 
-const ImageModal = ({ modalIsOpen, closeModal, imgUrl, likes }) => {
+const ImageModal: React.FC<{
+  modalIsOpen: boolean;
+  closeModal: () => void;
+  imgUrl: string;
+  likes: number;
+}> = ({ modalIsOpen, closeModal, imgUrl, likes }) => {
   return (
     <Modal
       isOpen={modalIsOpen}
