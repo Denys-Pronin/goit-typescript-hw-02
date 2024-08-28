@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ImageGallery from "./ImageGallery/ImageGallery";
 import SearchBar from "./SearchBar/SearchBar";
 import { Toaster } from "react-hot-toast";
