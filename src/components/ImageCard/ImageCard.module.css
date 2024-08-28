@@ -1,0 +1,38 @@
+.item {
+  list-style: none;
+  transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.image {
+  width: 100%;
+  height: 411px;
+  border-radius: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .item {
+    width: 80%;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .item {
+    width: calc((80% - 40px) / 2);
+  }
+  .img {
+    height: 350px;
+  }
+}
+
+@media screen and (min-width: 1281px) {
+  .item {
+    width: calc((100% - 80px) / 4);
+  }
+
+  .image {
+    height: 350px;
+  }
+}
